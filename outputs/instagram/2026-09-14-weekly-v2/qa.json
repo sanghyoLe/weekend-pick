@@ -1,0 +1,133 @@
+{
+  "fonts": true,
+  "contrast": [
+    {
+      "text": "--color-ink",
+      "background": "--color-paper",
+      "ratio": 16.327530007813984
+    },
+    {
+      "text": "--color-muted",
+      "background": "--color-paper",
+      "ratio": 6.386114583131834
+    },
+    {
+      "text": "--color-dark-muted",
+      "background": "--color-ink",
+      "ratio": 8.961918072118186
+    }
+  ],
+  "images": [
+    {
+      "src": "assets/siheung.jpg",
+      "loaded": true,
+      "ratioError": 0.0000043147572246216015,
+      "fit": "fill"
+    },
+    {
+      "src": "assets/seoul.png",
+      "loaded": true,
+      "ratioError": 0.0000017545614210412452,
+      "fit": "fill"
+    },
+    {
+      "src": "assets/suwon.png",
+      "loaded": true,
+      "ratioError": 0.000005923477555125345,
+      "fit": "fill"
+    },
+    {
+      "src": "assets/siheung.jpg",
+      "loaded": true,
+      "ratioError": 0.0000043147572246216015,
+      "fit": "fill"
+    },
+    {
+      "src": "assets/bucheon.jpg",
+      "loaded": true,
+      "ratioError": 0.00003192805914187247,
+      "fit": "fill"
+    },
+    {
+      "src": "assets/gwangju.jpg",
+      "loaded": true,
+      "ratioError": 0.00001660485509358267,
+      "fit": "fill"
+    }
+  ],
+  "cards": [
+    {
+      "id": "card-01",
+      "width": 1080,
+      "height": 1350,
+      "outside": [],
+      "footerOverlap": false
+    },
+    {
+      "id": "card-02",
+      "width": 1080,
+      "height": 1350,
+      "outside": [],
+      "footerOverlap": false
+    },
+    {
+      "id": "card-03",
+      "width": 1080,
+      "height": 1350,
+      "outside": [],
+      "footerOverlap": false
+    },
+    {
+      "id": "card-04",
+      "width": 1080,
+      "height": 1350,
+      "outside": [],
+      "footerOverlap": false
+    },
+    {
+      "id": "card-05",
+      "width": 1080,
+      "height": 1350,
+      "outside": [],
+      "footerOverlap": false
+    },
+    {
+      "id": "card-06",
+      "width": 1080,
+      "height": 1350,
+      "outside": [],
+      "footerOverlap": false
+    },
+    {
+      "id": "card-07",
+      "width": 1080,
+      "height": 1350,
+      "outside": [],
+      "footerOverlap": false
+    }
+  ],
+  "responsive": [
+    {
+      "viewport": 320,
+      "scrollWidth": 320,
+      "cardsInsideViewport": true
+    },
+    {
+      "viewport": 375,
+      "scrollWidth": 375,
+      "cardsInsideViewport": true
+    },
+    {
+      "viewport": 414,
+      "scrollWidth": 414,
+      "cardsInsideViewport": true
+    },
+    {
+      "viewport": 768,
+      "scrollWidth": 768,
+      "cardsInsideViewport": true
+    }
+  ],
+  "captionCharacters": 994,
+  "runtimeErrors": []
+}

@@ -1,0 +1,62 @@
+/* Hallmark · macrostructure: Catalogue · tone: editorial · anchor hue: leaf green
+ * pre-emit critique: P4 H4 E4 S5 R4 V5
+ * theme: Garden · nav: N6 Newspaper masthead · footer: Ft2 Inline rule
+ * audience: weekend planners · use: discover and share a day out
+ * enrichment: labeled reference photography · motion: press, opacity
+ */
+:root {
+  --color-accent-ink: var(--color-on-accent);
+  --space-5: 20px;
+  --space-7: 28px;
+  --space-10: 40px;
+  --space-11: 44px;
+
+  --color-paper: oklch(97.6% 0.009 94);
+  --color-paper-2: oklch(95% 0.014 96);
+  --color-paper-3: oklch(92.5% 0.016 100);
+  --color-surface: oklch(99% 0.005 94);
+  --color-ink: oklch(27% 0.025 154);
+  --color-ink-2: oklch(47% 0.014 140);
+  --color-muted: oklch(50% 0.01 134);
+  --color-accent: oklch(38% 0.065 158);
+  --color-accent-hover: oklch(31% 0.06 158);
+  --color-accent-soft: oklch(92% 0.023 146);
+  --color-on-accent: oklch(98% 0.007 94);
+  --color-rule: oklch(85% 0.013 105);
+  --color-rule-strong: oklch(62% 0.03 145);
+  --color-error: oklch(43% 0.12 28);
+  --color-error-soft: oklch(95% 0.025 35);
+  --color-focus: oklch(46% 0.11 157);
+  --color-photo-shade: oklch(20% 0.015 155 / 68%);
+  --color-photo-label: oklch(98% 0.009 94 / 95%);
+  --color-stamp: oklch(54% 0.06 157);
+  --font-display: "Gowun Batang", serif;
+  --font-body: "Noto Sans KR Variable", sans-serif;
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  --space-4xl: 80px;
+  --text-xs: 0.7rem;
+  --text-sm: 0.8rem;
+  --text-md: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5625rem;
+  --text-2xl: 1.95rem;
+  --text-display: clamp(2rem, 3.5vw, 2.85rem);
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-circle: 50%;
+  --rule-hair: 1px;
+  --dur-short: 120ms;
+  --dur-medium: 200ms;
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+}

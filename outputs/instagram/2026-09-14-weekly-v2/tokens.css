@@ -1,0 +1,32 @@
+/* Hallmark · pre-emit critique: P4 H4 E4 S5 R4 V4
+ * component: weekly carousel · genre: editorial · theme: inherited, restrained
+ * structure: image-led, bottom-aligned cover, poster/text split, photo/metadata stack
+ * audience: 서울·경기 주말 나들이 독자 · use: 행사 비교 · tone: 담백한 정보 매거진
+ * fonts: existing Korean families; heavy sans headlines, serif wordmark only
+ * states: static print cards; no interactive controls · motion: none
+ * contrast: pass (40–41) · mobile: pass (34,49,50–57 where applicable)
+ * review: applicable static-card gates passed; page/nav/state gates N/A
+ */
+:root {
+  --color-paper: oklch(98% 0.005 154);
+  --color-ink: oklch(22% 0.012 154);
+  --color-muted: oklch(47% 0.012 154);
+  --color-rule: oklch(84% 0.01 154);
+  --color-accent: oklch(38% 0.065 158);
+  --color-canvas: oklch(91% 0.006 154);
+  --color-dark-muted: oklch(79% 0.01 154);
+  --font-display: 'Noto Sans KR Variable', sans-serif;
+  --font-body: 'Noto Sans KR Variable', sans-serif;
+  --font-wordmark: 'Gowun Batang', serif;
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 32px;
+  --space-xl: 48px;
+  --space-2xl: 64px;
+  --text-small: 26px;
+  --text-caption: 32px;
+  --text-body: 40px;
+  --text-heading: 68px;
+  --text-display: 92px;
+}

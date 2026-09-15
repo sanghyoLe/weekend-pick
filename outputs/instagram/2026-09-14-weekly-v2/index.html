@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>주말픽 · 2026년 9월 셋째 주</title>
+  <link rel="stylesheet" href="../../../node_modules/@fontsource/gowun-batang/700.css">
+  <link rel="stylesheet" href="../../../node_modules/@fontsource-variable/noto-sans-kr/index.css">
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    *{box-sizing:border-box}
+    html,body{overflow-x:clip}
+    body{margin:0;color:var(--color-ink);background:var(--color-canvas);font-family:var(--font-body);-webkit-font-smoothing:antialiased;word-break:keep-all}
+    h1,h2,p,figure,dl,dd{margin:0}
+    h1,h2{font-family:var(--font-display);font-style:normal;font-weight:850;letter-spacing:-.055em;line-height:1.2;overflow-wrap:anywhere;min-width:0}
+    #cards{display:grid;justify-items:center;gap:var(--space-md);padding:var(--space-sm)}
+    .sheet{width:min(100%,540px);aspect-ratio:4/5;position:relative;min-width:0}
+    .card{position:absolute;inset:0;width:1080px;height:1350px;background:var(--color-paper);display:flex;flex-direction:column;transform:scale(var(--scale,.5));transform-origin:top left;overflow:clip}
+    .top{display:flex;align-items:center;justify-content:space-between;margin:var(--space-xl) var(--space-xl) var(--space-lg);font-size:var(--text-caption);line-height:1.15;flex-shrink:0}
+    .brand{font-family:var(--font-wordmark);font-weight:700;letter-spacing:-.055em}
+    .region{font-size:var(--text-small)}
+    .footer{display:flex;justify-content:space-between;align-items:end;margin:auto var(--space-xl) var(--space-xl);padding-top:var(--space-md);font-size:var(--text-small);line-height:1.5;gap:var(--space-md);flex-shrink:0}
+    .footer .source{color:var(--color-muted)}
+    .cover-image img,.landscape img{display:block;width:100%;height:auto}
+    .credit{font-size:var(--text-small);line-height:1.5;color:var(--color-muted)}
+    .cover-image .credit,.landscape .credit{padding:var(--space-xs) var(--space-xl) 0}
+    .cover-copy{padding:var(--space-lg) var(--space-xl) 0}
+    .cover h1{font-size:var(--text-display)}
+    .cover-sub{font-size:var(--text-body);margin-top:var(--space-md);line-height:1.4}
+    .event-head{padding:0 var(--space-xl)}
+    .event-head h2{font-size:var(--text-heading)}
+    .date{font-size:var(--text-body);font-weight:600;line-height:1.4;margin-top:var(--space-sm);font-variant-numeric:tabular-nums;letter-spacing:-.015em}
+    .poster-layout{display:grid;grid-template-columns:minmax(0,572px) minmax(0,1fr);gap:var(--space-lg);margin:var(--space-xl) var(--space-xl) 0;align-items:start}
+    .poster-layout img{display:block;width:100%;height:auto}
+    .poster-layout figcaption{padding-top:var(--space-sm)}
+    .poster-info{display:flex;flex-direction:column;gap:var(--space-lg);padding-top:var(--space-xs)}
+    .poster-info p{font-size:var(--text-body);line-height:1.55;letter-spacing:-.035em}
+    .poster-info .reason{font-weight:750;line-height:1.4}
+    .label{display:block;font-size:var(--text-small);font-weight:450;margin-bottom:var(--space-xs);color:var(--color-muted)}
+    .poster-info .price{font-size:var(--text-heading);font-weight:800;line-height:1.2;letter-spacing:-.04em}
+    .postscript{margin:var(--space-lg) var(--space-xl) 0;font-size:var(--text-caption);line-height:1.5}
+    .dark{background:var(--color-ink);color:var(--color-paper)}
+    .dark .label,.dark .credit,.dark .footer .source{color:var(--color-dark-muted)}
+    .landscape{margin-top:var(--space-lg)}
+    .photo-copy{margin:var(--space-md) var(--space-xl) 0;display:flex;flex-direction:column;gap:var(--space-sm)}
+    .venue{font-size:var(--text-body);font-weight:750;line-height:1.4;letter-spacing:-.035em}
+    .detail{font-size:var(--text-caption);line-height:1.55;letter-spacing:-.025em}
+    .summary{padding-inline:var(--space-xl)}
+    .summary .top,.summary .footer{margin-inline:0}
+    .summary h2{font-size:var(--text-display);margin-top:var(--space-md)}
+    .summary-intro{font-size:var(--text-body);line-height:1.5;margin-top:var(--space-md)}
+    table{width:100%;border-collapse:collapse;table-layout:fixed;margin-top:var(--space-xl);font-size:var(--text-caption);font-variant-numeric:tabular-nums}
+    th{padding:var(--space-md) 0;border-top:3px solid var(--color-ink);border-bottom:1px solid var(--color-ink);font-weight:500;text-align:center;font-size:var(--text-caption);line-height:1.4}
+    th:first-child{width:42%;text-align:left}th:last-child{width:23%;text-align:right}
+    td{height:120px;border-bottom:1px solid var(--color-rule);text-align:center;line-height:1.4}
+    td:first-child{text-align:left;font-weight:700;letter-spacing:-.035em}td:last-child{text-align:right}
+    td small{display:block;font-size:var(--text-small);font-weight:450;margin-top:var(--space-xs)}
+    .summary-note{font-size:var(--text-caption);line-height:1.6;margin-top:var(--space-lg)}
+    .summary .footer{font-size:var(--text-small)}
+    html.export #cards{padding:0;gap:var(--space-lg)}
+    html.export .sheet{width:1080px}
+  </style>
+</head>
+<body>
+<main id="cards">
+  <div class="sheet"><section class="card cover" id="card-01" aria-label="이번 주말 가볼 만한 곳 다섯 곳">
+    <header class="top"><span class="brand">주말픽</span><span class="region">2026. 9. 14–20</span></header>
+    <figure class="cover-image"><img src="assets/siheung.jpg" width="940" height="615" alt="시흥갯골축제 제공 사진. 염전 위에서 소금 체험을 하는 방문객들."><figcaption class="credit">시흥갯골축제 제공 자료 · 지난 행사 사진</figcaption></figure>
+    <div class="cover-copy"><h1>이번 주말<br>가볼 만한 곳 5</h1><p class="cover-sub">서울 · 수원 · 시흥 · 부천 · 광주</p></div>
+    <footer class="footer"><span>9.18 금 — 9.20 일</span><span>일정은 다음 장부터 →</span></footer>
+  </section></div>
+
+  <div class="sheet"><section class="card poster" id="card-02" aria-label="서울거리예술축제">
+    <header class="top"><span class="brand">주말픽</span><span class="region">서울 광진·성동</span></header>
+    <div class="event-head"><h2>서울거리예술축제</h2><p class="date">9.19 토 — 9.20 일</p></div>
+    <div class="poster-layout">
+      <figure><img src="assets/seoul.png" width="443" height="627" alt="2026 서울거리예술축제 공식 포스터. 9월 19일부터 20일, 뚝섬한강공원과 서울숲."><figcaption class="credit">2026 공식 포스터</figcaption></figure>
+      <div class="poster-info"><p class="reason">거리예술 공연<br>20편을 무료로.</p><p><span class="label">장소</span>뚝섬한강공원<br>서울숲</p><p><span class="label">시간</span>10:00–21:00</p><p class="price"><span class="label">관람료</span>무료</p></div>
+    </div>
+    <p class="postscript">공연마다 장소와 시작 시간이 달라요.</p>
+    <footer class="footer"><span class="source">자료 서울문화재단 · 한국관광공사 TourAPI</span><span>2 / 7</span></footer>
+  </section></div>
+
+  <div class="sheet"><section class="card poster dark" id="card-03" aria-label="수원재즈페스티벌">
+    <header class="top"><span class="brand">주말픽</span><span class="region">경기 수원</span></header>
+    <div class="event-head"><h2>수원재즈페스티벌</h2><p class="date">9.18 금 — 9.19 토</p></div>
+    <div class="poster-layout">
+      <figure><img src="assets/suwon.png" width="444" height="627" alt="2026 수원재즈페스티벌 공식 포스터. 9월 18일과 19일 17시 30분 광교호수공원 재미난밭."><figcaption class="credit">2026 공식 포스터</figcaption></figure>
+      <div class="poster-info"><p class="reason">금요일 정동환,<br>토요일 이은미.</p><p><span class="label">장소</span>광교호수공원<br>재미난밭</p><p><span class="label">시간</span>17:30–21:30</p><p class="price"><span class="label">관람료</span>무료</p></div>
+    </div>
+    <p class="postscript">금·토 이틀만 열려요. 일요일 공연은 없습니다.</p>
+    <footer class="footer"><span class="source">자료 수원시 · 한국관광공사 TourAPI</span><span>3 / 7</span></footer>
+  </section></div>
+
+  <div class="sheet"><section class="card photo" id="card-04" aria-label="시흥갯골축제">
+    <header class="top"><span class="brand">주말픽</span><span class="region">경기 시흥</span></header>
+    <div class="event-head"><h2>시흥갯골축제</h2><p class="date">9.18 금 — 9.20 일 · 입장 무료</p></div>
+    <figure class="landscape"><img src="assets/siheung.jpg" width="940" height="615" alt="시흥갯골축제의 염전 체험 자료 사진. 올해 현장 사진이 아닙니다."><figcaption class="credit">지난 행사 사진 · 한국관광공사 TourAPI 제공 자료</figcaption></figure>
+    <div class="photo-copy"><p class="venue">시흥갯골생태공원 · 10:00–22:00</p><p class="detail">염전 체험, 소금창고 인형극, 저녁 콘서트.<br>일부 체험은 유료이며, 시간과 접수 방법도 달라요.</p></div>
+    <footer class="footer"><span class="source">상세 일정 shggfestival.com</span><span>4 / 7</span></footer>
+  </section></div>
+
+  <div class="sheet"><section class="card photo dark" id="card-05" aria-label="부천국제만화축제">
+    <header class="top"><span class="brand">주말픽</span><span class="region">경기 부천</span></header>
+    <div class="event-head"><h2>부천국제만화축제</h2><p class="date">9.18 금 — 9.20 일 · 일반 5,000원</p></div>
+    <figure class="landscape"><img src="assets/bucheon.jpg" width="940" height="626" alt="부천국제만화축제 연계 코스프레 행사 자료 사진. 올해 현장 사진이 아닙니다."><figcaption class="credit">지난 행사 사진 · 한국관광공사 TourAPI 제공 자료</figcaption></figure>
+    <div class="photo-copy"><p class="venue">한국만화박물관·한국만화영상진흥원 일원</p><p class="detail">전시·작가와의 만남·코스프레.<br>금·토 10:00–20:00 / 일 10:00–18:00</p></div>
+    <footer class="footer"><span class="source">참여 조건·사전신청 할인 bicof.com</span><span>5 / 7</span></footer>
+  </section></div>
+
+  <div class="sheet"><section class="card photo" id="card-06" aria-label="광주시 남한산성문화제">
+    <header class="top"><span class="brand">주말픽</span><span class="region">경기 광주</span></header>
+    <div class="event-head"><h2>남한산성문화제</h2><p class="date">9.18 금 — 9.20 일 · 무료</p></div>
+    <figure class="landscape"><img src="assets/gwangju.jpg" width="940" height="627" alt="남한산성문화제 무대 공연 자료 사진. 올해 현장 사진이 아닙니다."><figcaption class="credit">지난 행사 사진 · 한국관광공사 TourAPI 제공 자료</figcaption></figure>
+    <div class="photo-copy"><p class="venue">남한산성도립공원 일원</p><p class="detail">성곽 축성 400주년 공연·역사체험·아트마켓.<br>시간은 프로그램별로 다르며, 산성 트래킹은 사전 접수.</p></div>
+    <footer class="footer"><span class="source">공식 안내 광주시문화재단 nsart.or.kr</span><span>6 / 7</span></footer>
+  </section></div>
+
+  <div class="sheet"><section class="card summary" id="card-07" aria-label="날짜와 요금 비교표">
+    <header class="top"><span class="brand">주말픽</span><span class="region">2026. 9. 14–20</span></header>
+    <h2>주말 일정표</h2><p class="summary-intro">토요일에는 다섯 곳 모두 열려요.</p>
+    <table><thead><tr><th scope="col">행사</th><th scope="col">18<br>금</th><th scope="col">19<br>토</th><th scope="col">20<br>일</th><th scope="col">요금</th></tr></thead><tbody>
+      <tr><td>서울거리예술축제</td><td>—</td><td>●</td><td>●</td><td>무료</td></tr>
+      <tr><td>수원재즈페스티벌</td><td>●</td><td>●</td><td>—</td><td>무료</td></tr>
+      <tr><td>시흥갯골축제</td><td>●</td><td>●</td><td>●</td><td>무료<small>일부 체험 유료</small></td></tr>
+      <tr><td>부천국제만화축제</td><td>●</td><td>●</td><td>●</td><td>5,000원<small>일반 요금</small></td></tr>
+      <tr><td>남한산성문화제</td><td>●</td><td>●</td><td>●</td><td>무료</td></tr>
+    </tbody></table>
+    <p class="summary-note">● 개최일 · 세부 시간은 앞 장 참고</p>
+    <footer class="footer"><span class="source">2026.09.15 확인 · 출처와 상세 안내는 캡션</span><span>7 / 7</span></footer>
+  </section></div>
+</main>
+<script>
+  if(new URLSearchParams(location.search).has('export'))document.documentElement.classList.add('export');
+  const resize = new ResizeObserver(entries=>entries.forEach(({target,contentRect})=>target.style.setProperty('--scale',contentRect.width/1080)));
+  document.querySelectorAll('.sheet').forEach(sheet=>resize.observe(sheet));
+  document.documentElement.dataset.ready='true';
+</script>
+</body>
+</html>

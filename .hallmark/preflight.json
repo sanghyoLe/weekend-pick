@@ -1,0 +1,13 @@
+{
+  "date": "2026-09-15",
+  "scope": "outputs/instagram/2026-09-14-weekly-v2/index.html",
+  "source": "outputs/instagram/2026-09-14-weekly/index.html:7",
+  "fonts": ["Noto Sans KR Variable", "Gowun Batang"],
+  "palette": "Existing green anchor retained as low-chroma neutrals; pastel event variants removed",
+  "framework": "Standalone static HTML carousel; existing Playwright renderer",
+  "motion": "none",
+  "spacing": "4px scale",
+  "preserved": ["weekly multi-event scope", "brand name", "verified event facts", "1080x1350 export"],
+  "introduced": ["unmodified original posters and archive photographs", "heavy sans headlines", "responsive preview"],
+  "productionChanges": false
+}
