@@ -34,6 +34,12 @@ export function distanceKm(a: { lat: number; lng: number }, b: { lat: number; ln
   const h = Math.sin(rad(b.lat - a.lat) / 2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(rad(b.lng - a.lng) / 2) ** 2;
   return 6371 * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(Math.max(0, 1 - h)));
 }
+export function districtFromAddress(address: string): string {
+  const parts = address.trim().split(/\s+/).filter(Boolean);
+  const cityOrDistrict = parts[1] ?? parts[0] ?? "";
+  const district = parts[2] ?? "";
+  return cityOrDistrict.endsWith("시") && district.endsWith("구") ? `${cityOrDistrict} ${district}` : cityOrDistrict;
+}
 
 export interface EventItem {
   id: string;
@@ -73,18 +79,21 @@ export interface PlaceItem {
 export interface Filters {
   date: string;
   region: Region;
+  district: string;
   category: Category;
   sort: "recommended" | "date";
 }
 export const filtersSchema = z.object({
   date: dateSchema.default(() => nextSaturday()),
   region: z.enum(regions).default("전체"),
+  district: z.string().trim().max(40).default("전체"),
   category: z.enum(categories).default("전체"),
   sort: z.enum(["recommended", "date"]).default("recommended"),
 });
 export function recommend(events: EventItem[], filters: Filters): EventItem[] {
   const pool = [...new Map(events.map(e => [e.id, e])).values()].filter(e => e.status === "scheduled" && isFresh(e) && e.startDate <= filters.date && e.endDate >= filters.date &&
     (filters.region === "전체" || e.region === filters.region) &&
+    (filters.district === "전체" || e.district === filters.district) &&
     (filters.category === "전체" || e.category === filters.category))
     .sort((a, b) => filters.sort === "date" ? a.startDate.localeCompare(b.startDate) || a.id.localeCompare(b.id) : quality(b) - quality(a));
   if (filters.sort === "date") return pool;

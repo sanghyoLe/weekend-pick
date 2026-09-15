@@ -17,6 +17,7 @@ test("normalization keeps missing prices unknown and rejects malformed dates", (
   assert.equal(event?.description, "소개");
   assert.equal(event?.category, "전시·문화");
   assert.equal(event?.demo, false);
+  assert.equal(normalizeEvent({ ...raw, addr1: "경기도 수원시 팔달구 정조로 825" }, {}, {}, "경기")?.district, "수원시 팔달구");
   assert.equal(normalizeEvent({ ...raw, eventstartdate: "20260230" }, {}, {}, "서울"), null);
   assert.equal(normalizeEvent({ ...raw, eventenddate: "20260901" }, {}, {}, "서울"), null);
   assert.equal(plainText("A<br>B &amp; C"), "A\nB & C");

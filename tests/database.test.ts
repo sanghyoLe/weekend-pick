@@ -15,8 +15,9 @@ test("Postgres schema and repository: filters, upserts, nearby, durable shares, 
     const events = demoEvents();
     for (const e of events) await repo.upsertEvent(e);
     for (const p of demoPlaces) await repo.upsertPlace(p);
-    const filter = { date: nextSaturday(), region: "서울" as const, category: "자연·산책" as const, sort: "recommended" as const };
+    const filter = { date: nextSaturday(), region: "서울" as const, district: "성동구", category: "자연·산책" as const, sort: "recommended" as const };
     assert.deepEqual((await repo.events(filter)).map(e => e.id), ["demo-forest"]);
+    assert.deepEqual(await repo.districts("서울"), ["성동구", "종로구"]);
     assert.equal(await repo.event("' OR 1=1 --"), null);
     const forest = events[0];
     await repo.upsertEvent({ ...forest, price: "변경된 요금" });

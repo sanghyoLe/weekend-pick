@@ -9,6 +9,9 @@ test("filter, save, reload, choose nearby places, share and reopen in a new brow
   await page.getByLabel("방문 지역").selectOption("서울");
   await page.getByRole("button", { name: "나들이 찾기" }).click();
   await expect(page).toHaveURL(/region=/);
+  await page.getByLabel("방문 구·군").selectOption("성동구");
+  await page.getByRole("button", { name: "나들이 찾기" }).click();
+  await expect(page).toHaveURL(/district=%EC%84%B1%EB%8F%99%EA%B5%AC/);
   await page.getByRole("button", { name: "자연·산책", exact: true }).click();
   await expect(page.getByTestId("event-card")).toHaveCount(1);
   await page.getByRole("button", { name: "숲 사이, 느린 산책 저장", exact: true }).click();

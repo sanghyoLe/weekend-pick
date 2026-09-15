@@ -1,4 +1,4 @@
-import { addDays, checkedDateKST, isDate, safeUrl, todayKST, type EventItem, type PlaceItem } from "./domain";
+import { addDays, checkedDateKST, districtFromAddress, isDate, safeUrl, todayKST, type EventItem, type PlaceItem } from "./domain";
 import type { Repository } from "./database";
 
 type Item = Record<string, string | number | undefined>;
@@ -35,7 +35,7 @@ export function normalizeEvent(list: Item, common: Item, intro: Item, region: Ev
   const rawImage = safeUrl(String(data.firstimage ?? "").replace(/^http:/, "https:"));
   const image = ["Type1", "Type3", "1", "3"].includes(imageType) && rawImage.startsWith("https://tong.visitkorea.or.kr/cms/resource/") ? rawImage : null;
   const category = /전시|미술|박물관/.test(title) ? "전시·문화" : /먹거리|음식|푸드|미식/.test(title) ? "먹거리" : /정원|숲|걷기|산책|꽃/.test(title) ? "자연·산책" : "공연·축제";
-  return { id, title, subtitle: `${region}에서 만나는 ${category}`, region, district: address.split(" ")[1] ?? region, category,
+  return { id, title, subtitle: `${region}에서 만나는 ${category}`, region, district: districtFromAddress(address) || region, category,
     startDate, endDate, address, lat: coordinate(data.mapy, 33, 39), lng: coordinate(data.mapx, 124, 132),
     description: plainText(data.overview) || plainText(data.program) || "자세한 프로그램은 주최 측 안내를 확인해 주세요.",
     price: plainText(data.usetimefestival), hours: plainText(data.playtime), image,

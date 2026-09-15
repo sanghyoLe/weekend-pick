@@ -22,11 +22,13 @@ test("recommendations include overlapping dates and exclude wrong regions, inter
     { ...base, id: "expired", startDate: "2026-09-01", endDate: "2026-09-11" },
     { ...base, id: "cancelled", startDate: "2026-09-01", endDate: "2026-09-30", status: "cancelled" as const },
     { ...base, id: "other-region", startDate: "2026-09-01", endDate: "2026-09-30", region: "경기" as const },
+    { ...base, id: "other-district", startDate: "2026-09-01", endDate: "2026-09-30", district: "종로구" },
     { ...base, id: "other-category", startDate: "2026-09-01", endDate: "2026-09-30", category: "먹거리" as const },
   ];
-  assert.deepEqual(recommend(events, { date: "2026-09-12", region: "서울", category: "자연·산책", sort: "recommended" }).map(e => e.id), ["valid"]);
+  assert.deepEqual(recommend(events, { date: "2026-09-12", region: "서울", district: "성동구", category: "자연·산책", sort: "recommended" }).map(e => e.id), ["valid"]);
+  assert.deepEqual(recommend(events, { date: "2026-09-12", region: "서울", district: "종로구", category: "전체", sort: "recommended" }).map(e => e.id), ["other-district"]);
   assert.equal(filtersSchema.safeParse({ date: "not-a-date" }).success, false);
-  assert.equal(recommend([{ ...base, demo: false, checkedAt: "2000-01-01" }], { date: nextSaturday(), region: "전체", category: "전체", sort: "recommended" }).length, 0);
+  assert.equal(recommend([{ ...base, demo: false, checkedAt: "2000-01-01" }], { date: nextSaturday(), region: "전체", district: "전체", category: "전체", sort: "recommended" }).length, 0);
 });
 test("share data only accepts bounded, unique place IDs and roundtrips", () => {
   const input = { eventId: "demo-forest", placeIds: ["demo-seoul-walk"], date: "2026-09-12" };

@@ -1,10 +1,8 @@
-node_modules/
-.next/
 .env*
-!.env.example
 .data/
+.next/
+outputs/
 test-results/
 playwright-report/
 *.tsbuildinfo
 .DS_Store
-.vercel
