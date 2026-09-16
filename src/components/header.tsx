@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowUpRight, Bookmark, Flower2, Link2 } from "lucide-react";
+import { ArrowUpRight, Bookmark, Flower2 } from "lucide-react";
 import { useSaved } from "./saved-store";
 
 export function Header({ demo }: { demo: boolean }) {
@@ -16,7 +16,6 @@ export function Header({ demo }: { demo: boolean }) {
       <nav aria-label="주 메뉴" className="main-nav">
         <Link href="/" className={path === "/" ? "active" : ""} aria-current={path === "/" ? "page" : undefined}>주말 발견</Link>
         <Link href="/saved" className={path === "/saved" ? "active" : ""} aria-current={path === "/saved" ? "page" : undefined}><Bookmark size={15} aria-hidden /> 저장한 나들이 {ids.length > 0 ? <span className="saved-count">{ids.length}</span> : null}</Link>
-        <Link href="/links" className={path === "/links" ? "active" : ""} aria-current={path === "/links" ? "page" : undefined}><Link2 size={15} aria-hidden /> 공식 링크</Link>
       </nav>
     </header>
   </>;
