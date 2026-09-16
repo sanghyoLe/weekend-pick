@@ -22,16 +22,27 @@ export function SaveButton({ event, large = false }: { event: EventItem; large?:
     {error ? <span role="alert" className="save-error">저장 공간을 확인해 주세요.</span> : null}
   </div>;
 }
+function detailHref(event: EventItem, filters: Filters): string {
+  const query = new URLSearchParams({
+    date: filters.date,
+    region: filters.region,
+    district: filters.district,
+    category: filters.category,
+    sort: filters.sort,
+  });
+  return `/events/${event.id}?${query.toString()}`;
+}
 export function EventCard({ event, filters, index = 0 }: { event: EventItem; filters: Filters; index?: number }) {
+  const href = detailHref(event, filters);
   return <article className="event-card" data-testid="event-card">
     <div className="event-image-wrap">
-      <Link href={`/events/${event.id}?date=${filters.date}`} tabIndex={-1} aria-hidden="true" className="event-image-link"><EventPhoto event={event} priority={index < 3} /></Link>
+      <Link href={href} tabIndex={-1} aria-hidden="true" className="event-image-link"><EventPhoto event={event} priority={index < 3} /></Link>
       <span className="photo-category">{event.category}</span>
       <SaveButton event={event} />
       {event.demo ? <span className="photo-disclaimer">분위기 참고 이미지</span> : null}
     </div>
     <div className="event-location"><MapPin size={13} aria-hidden />{event.region} {event.district}<span>{event.demo ? "예시 행사" : "TourAPI"}</span></div>
-    <Link className="event-title-link" href={`/events/${event.id}?date=${filters.date}`}><h3>{event.title}</h3><ArrowUpRight size={20} strokeWidth={1.4} aria-hidden /></Link>
+    <Link className="event-title-link" href={href}><h3>{event.title}</h3><ArrowUpRight size={20} strokeWidth={1.4} aria-hidden /></Link>
     <p className="event-subtitle">{event.subtitle}</p>
     <div className="event-meta"><span>{shortDate(event.startDate)} — {shortDate(event.endDate)}</span><span>{event.price || "요금 확인 필요"}</span></div>
     <div className="event-reason"><Check size={13} aria-hidden />{recommendationReason(event, filters)}</div>

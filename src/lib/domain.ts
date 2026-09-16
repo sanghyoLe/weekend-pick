@@ -4,6 +4,7 @@ export const regions = ["전체", "서울", "경기", "인천"] as const;
 export const categories = ["전체", "자연·산책", "전시·문화", "공연·축제", "먹거리"] as const;
 export type Region = typeof regions[number];
 export type Category = typeof categories[number];
+export type DistrictOption = { region: Exclude<Region, "전체">; district: string };
 
 export function isDate(value: string): boolean {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
@@ -89,7 +90,7 @@ export const filtersSchema = z.object({
   district: z.string().trim().max(40).default("전체"),
   category: z.enum(categories).default("전체"),
   sort: z.enum(["recommended", "date"]).default("recommended"),
-});
+}).transform(filters => ({ ...filters, district: filters.region === "전체" || !filters.district ? "전체" : filters.district }));
 export function recommend(events: EventItem[], filters: Filters): EventItem[] {
   const pool = [...new Map(events.map(e => [e.id, e])).values()].filter(e => e.status === "scheduled" && isFresh(e) && e.startDate <= filters.date && e.endDate >= filters.date &&
     (filters.region === "전체" || e.region === filters.region) &&

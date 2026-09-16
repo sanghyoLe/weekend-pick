@@ -1,13 +1,14 @@
 "use client";
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight, CalendarDays, ChevronDown, Compass, Leaf, MapPin, MapPinned, Music2, Palette, Search, Utensils, X } from "lucide-react";
-import { addDays, categories, formatDate, nextSaturday, regions, todayKST, type Category, type EventItem, type Filters } from "@/lib/domain";
+import { addDays, categories, formatDate, nextSaturday, regions, todayKST, type Category, type DistrictOption, type EventItem, type Filters } from "@/lib/domain";
 import { EventCard } from "./event-card";
 const categoryIcons = { "전체": Compass, "자연·산책": Leaf, "전시·문화": Palette, "공연·축제": Music2, "먹거리": Utensils };
 
-export function Explorer({ events, districts, filters, error }: { events: EventItem[]; districts: string[]; filters: Filters; error?: string }) {
+export function Explorer({ events, districts, filters, error, notice }: { events: EventItem[]; districts: DistrictOption[]; filters: Filters; error?: string; notice?: string }) {
   const router = useRouter();
+  const formRef = useRef<HTMLFormElement>(null);
   const [pending, startTransition] = useTransition();
   const [date, setDate] = useState(filters.date);
   const [region, setRegion] = useState(filters.region);
@@ -15,7 +16,10 @@ export function Explorer({ events, districts, filters, error }: { events: EventI
   const [visible, setVisible] = useState(3);
   const today = todayKST();
   const saturday = nextSaturday(today);
+  const districtNames = districts.filter(option => option.region === region).map(option => option.district);
+  if (district !== "전체" && !districtNames.includes(district)) districtNames.push(district);
   const navigate = (values: Partial<Filters>) => {
+    if (values.date === undefined && !formRef.current?.reportValidity()) return;
     const next = { ...filters, date, region, district, ...values };
     const params = new URLSearchParams(next);
     startTransition(() => router.push(`/?${params}`, { scroll: false }));
@@ -28,17 +32,25 @@ export function Explorer({ events, districts, filters, error }: { events: EventI
       <div className="weekend-stamp" aria-hidden><span>WEEKEND</span><strong>{date.slice(5).replace("-", "/")}</strong><span>{selectedWeekend}의 빈칸을 채워요</span><div className="stamp-stars">✳</div></div>
     </section>
     <section className="search-section" aria-label="나들이 검색">
-      <form className="search-bar" onSubmit={e => { e.preventDefault(); navigate({}); }}>
-        <label className="search-field"><CalendarDays size={20} strokeWidth={1.4} aria-hidden /><span><span className="field-label">언제 떠날까요?</span><input aria-label="나들이 날짜" type="date" min={today} max={addDays(today, 90)} required value={date} onChange={e => setDate(e.target.value)} /></span></label>
-        <label className="search-field"><MapPin size={21} strokeWidth={1.4} aria-hidden /><span><span className="field-label">어디로 갈까요?</span><span className="select-wrap"><select aria-label="방문 지역" value={region} onChange={e => { const value = e.target.value as Filters["region"]; setRegion(value); setDistrict("전체"); navigate({ region: value, district: "전체" }); }}>{regions.map(r => <option key={r} value={r}>{r === "전체" ? "수도권 어디든" : r}</option>)}</select><ChevronDown size={14} aria-hidden /></span></span></label>
-        <label className="search-field district-field"><MapPinned size={21} strokeWidth={1.4} aria-hidden /><span><span className="field-label">어느 동네로 갈까요?</span><span className="select-wrap"><select aria-label="방문 구·군" value={district} disabled={region === "전체"} onChange={e => setDistrict(e.target.value)}><option value="전체">{region === "전체" ? "지역을 먼저 골라요" : "구·군 전체"}</option>{districts.map(value => <option key={value} value={value}>{value}</option>)}</select><ChevronDown size={14} aria-hidden /></span></span></label>
+      {notice ? <p className="inline-message" role="status">{notice}</p> : null}
+      <form ref={formRef} className="search-bar" onSubmit={e => { e.preventDefault(); navigate({}); }}>
+        <label className="search-field"><CalendarDays size={20} strokeWidth={1.4} aria-hidden /><span><span className="field-label">언제 떠날까요?</span><input name="date" aria-label="나들이 날짜" type="date" min={today} max={addDays(today, 90)} required value={date} disabled={pending} onChange={e => setDate(e.target.value)} /></span></label>
+        <label className="search-field"><MapPin size={21} strokeWidth={1.4} aria-hidden /><span><span className="field-label">지역</span><span className="select-wrap"><select name="region" aria-label="방문 지역" value={region} disabled={pending} onChange={e => { setRegion(e.target.value as Filters["region"]); setDistrict("전체"); }}>{regions.map(r => <option key={r} value={r}>{r === "전체" ? "수도권 전체" : r}</option>)}</select><ChevronDown size={14} aria-hidden /></span></span></label>
+        <label className="search-field district-field"><MapPinned size={21} strokeWidth={1.4} aria-hidden /><span><span className="field-label">시·군·구</span><span className="select-wrap"><select name="district" aria-label="방문 시·군·구" aria-describedby="district-hint" value={district} disabled={pending || region === "전체"} onChange={e => setDistrict(e.target.value)}><option value="전체">{region === "전체" ? "지역 먼저 선택" : `${region} 전체`}</option>{districtNames.map(value => <option key={value} value={value}>{value}</option>)}</select><ChevronDown size={14} aria-hidden /></span></span></label>
         <button className="button button-primary search-submit" disabled={pending} type="submit"><Search size={17} aria-hidden />{pending ? "찾고 있어요" : "나들이 찾기"}<ArrowRight size={17} aria-hidden /></button>
       </form>
-      <div className="date-shortcuts"><span>가볍게 골라요</span><button type="button" aria-pressed={date === saturday} onClick={() => { setDate(saturday); navigate({ date: saturday }); }}>이번 토요일</button><button type="button" aria-pressed={date === addDays(saturday, 1)} onClick={() => { const d = addDays(saturday, 1); setDate(d); navigate({ date: d }); }}>이번 일요일</button><button type="button" aria-pressed={date === addDays(saturday, 7)} onClick={() => { const d = addDays(saturday, 7); setDate(d); navigate({ date: d }); }}>다음 주말</button></div>
+      <p id="district-hint" className="filter-hint">행사가 등록된 시·군·구를 고를 수 있어요.</p>
+      <div className="date-shortcuts"><span>가볍게 골라요</span><button type="button" disabled={pending} aria-pressed={date === saturday} onClick={() => { setDate(saturday); navigate({ date: saturday }); }}>이번 토요일</button><button type="button" disabled={pending} aria-pressed={date === addDays(saturday, 1)} onClick={() => { const d = addDays(saturday, 1); setDate(d); navigate({ date: d }); }}>이번 일요일</button><button type="button" disabled={pending} aria-pressed={date === addDays(saturday, 7)} onClick={() => { const d = addDays(saturday, 7); setDate(d); navigate({ date: d }); }}>다음 주말</button></div>
     </section>
     <section className="results-section" aria-labelledby="results-title" aria-busy={pending}>
       <div className="category-tabs" role="group" aria-label="관심사">{categories.map(category => { const Icon = categoryIcons[category]; return <button key={category} type="button" className={filters.category === category ? "selected" : ""} aria-pressed={filters.category === category} disabled={pending} onClick={() => chooseCategory(category)}><Icon size={17} strokeWidth={1.6} aria-hidden />{category === "전체" ? "모든 나들이" : category}</button>; })}</div>
-      <div className="results-heading"><div><h2 id="results-title">당신의 주말 후보<span className="result-count">{events.length}</span></h2><p>{formatDate(filters.date)} · {filters.region === "전체" ? "서울·경기·인천" : `${filters.region}${filters.district === "전체" ? "" : ` ${filters.district}`}`}</p></div><label className="sort-control"><span className="sr-only">정렬 기준</span><select value={filters.sort} onChange={e => navigate({ sort: e.target.value as Filters["sort"] })}><option value="recommended">추천순</option><option value="date">시작일순</option></select><ChevronDown size={13} aria-hidden /></label></div>
+      {filters.region !== "전체" || filters.category !== "전체" ? <div className="active-filters" aria-label="적용한 검색 조건">
+        {filters.region !== "전체" ? <button type="button" disabled={pending} aria-label={`${filters.region} 지역 조건 해제`} onClick={() => navigate({ region: "전체", district: "전체" })}>{filters.region}<X size={13} aria-hidden /></button> : null}
+        {filters.district !== "전체" ? <button type="button" disabled={pending} aria-label={`${filters.district} 조건 해제`} onClick={() => navigate({ district: "전체" })}>{filters.district}<X size={13} aria-hidden /></button> : null}
+        {filters.category !== "전체" ? <button type="button" disabled={pending} aria-label={`${filters.category} 조건 해제`} onClick={() => navigate({ category: "전체" })}>{filters.category}<X size={13} aria-hidden /></button> : null}
+        <button type="button" className="filter-reset" disabled={pending} onClick={() => navigate({ region: "전체", district: "전체", category: "전체", sort: "recommended" })}>조건 초기화</button>
+      </div> : null}
+      <div className="results-heading"><div><h2 id="results-title">당신의 주말 후보<span className="result-count">{events.length}</span></h2><p>{formatDate(filters.date)} · {filters.region === "전체" ? "서울·경기·인천" : `${filters.region}${filters.district === "전체" ? "" : ` ${filters.district}`}`}</p></div><label className="sort-control"><span className="sr-only">정렬 기준</span><select name="sort" value={filters.sort} disabled={pending} onChange={e => navigate({ sort: e.target.value as Filters["sort"] })}><option value="recommended">추천순</option><option value="date">시작일순</option></select><ChevronDown size={13} aria-hidden /></label></div>
       <p className="sr-only" role="status">{pending ? "나들이를 찾고 있어요." : `${events.length}개의 나들이를 찾았어요.`}</p>
       {error ? <div className="empty-state" role="alert"><Compass size={36} strokeWidth={1} /><h3>잠시 쉬었다 다시 만나요</h3><p>{error}</p><button className="button button-secondary" onClick={() => startTransition(() => router.refresh())}>다시 불러오기</button></div> : events.length ? <><div className={`event-grid${pending ? " is-pending" : ""}`}>{events.slice(0, visible).map((event, i) => <EventCard key={event.id} event={event} filters={filters} index={i} />)}</div>{events.length > visible ? <div className="more-row"><button className="button button-secondary" onClick={() => setVisible(v => v + 6)}>다른 나들이도 보기 <span>{events.length - visible}</span><ArrowRight size={16} aria-hidden /></button></div> : null}</> : <div className="empty-state"><Compass size={36} strokeWidth={1} aria-hidden /><h3>이날의 나들이는 아직 준비 중이에요</h3><p>다른 날짜나 지역을 고르면 새로운 후보를 만날 수 있어요.</p><button className="button button-secondary" onClick={() => { setRegion("전체"); setDistrict("전체"); navigate({ region: "전체", district: "전체", category: "전체" }); }}><X size={15} aria-hidden />조건 넓혀 보기</button></div>}
     </section>

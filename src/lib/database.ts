@@ -1,6 +1,6 @@
 import { neon } from "@neondatabase/serverless";
 import { randomUUID } from "node:crypto";
-import { districtFromAddress, distanceKm, type EventItem, type Filters, type PlaceItem, type PlanInput, type Region, type SharedPlan } from "./domain";
+import { districtFromAddress, distanceKm, todayKST, type DistrictOption, type EventItem, type Filters, type PlaceItem, type PlanInput, type SharedPlan } from "./domain";
 
 export type Query = (text: string, params?: unknown[]) => Promise<Record<string, unknown>[]>;
 export function neonQuery(): Query {
@@ -19,15 +19,15 @@ export function createRepository(query: Query) {
       const rows = ids
         ? await query("SELECT data FROM wp_events WHERE id = ANY($1::text[])", [ids])
         : filters
-          ? await query("SELECT data FROM wp_events WHERE start_date <= $1::date AND end_date >= $1::date AND status = 'scheduled' AND ($2 = '전체' OR region = $2) AND ($3 = '전체' OR category = $3) ORDER BY id LIMIT 200", [filters.date, filters.region, filters.category])
+          ? await query("SELECT data FROM wp_events WHERE start_date <= $1::date AND end_date >= $1::date AND status = 'scheduled' AND ($2 = '전체' OR region = $2) AND ($3 = '전체' OR category = $3) ORDER BY id", [filters.date, filters.region, filters.category])
           : await query("SELECT data FROM wp_events ORDER BY start_date DESC LIMIT 200");
-      return rows.map(eventFromRow);
+      // Filter the date-scoped pool before any UI limit so smaller districts are not lost.
+      return rows.map(eventFromRow).filter(event => ids || !filters || filters.district === "전체" || event.district === filters.district);
     },
-    async districts(region?: Exclude<Region, "전체">): Promise<string[]> {
-      const rows = region
-        ? await query("SELECT data FROM wp_events WHERE region = $1 ORDER BY data->>'address'", [region])
-        : await query("SELECT data FROM wp_events ORDER BY data->>'address'");
-      return [...new Set(rows.map(row => eventFromRow(row).district).filter(Boolean))].sort((a, b) => a.localeCompare(b, "ko"));
+    async districts(): Promise<DistrictOption[]> {
+      const rows = await query("SELECT DISTINCT region, data->>'address' AS address, data->>'district' AS district FROM wp_events WHERE status = 'scheduled' AND end_date >= $1::date", [todayKST()]);
+      const options = rows.map(row => ({ region: row.region as DistrictOption["region"], district: districtFromAddress(String(row.address ?? "")) || String(row.district ?? "") }));
+      return [...new Map(options.filter(option => option.district).map(option => [`${option.region}:${option.district}`, option])).values()].sort((a, b) => a.district.localeCompare(b.district, "ko"));
     },
     async event(id: string): Promise<EventItem | null> {
       const rows = await query("SELECT data FROM wp_events WHERE id = $1", [id]);

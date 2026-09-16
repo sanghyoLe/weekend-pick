@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight, CalendarDays, Clock3, MapPin, Ticket } from "lucide-react";
 import { getEvent, getNearby } from "@/lib/catalog.server";
-import { checkedDateKST, dateSchema, formatDate, nextSaturday } from "@/lib/domain";
+import { checkedDateKST, dateSchema, filtersSchema, formatDate, nextSaturday } from "@/lib/domain";
 import { EventPhoto, SaveButton } from "@/components/event-card";
 import { TripPlanner } from "@/components/trip-planner";
 export const dynamic = "force-dynamic";
@@ -16,9 +16,18 @@ export default async function EventPage({ params, searchParams }: Props) {
   const places = await getNearby(event);
   const parsed = dateSchema.safeParse(search.date);
   const date = parsed.success ? parsed.data : nextSaturday();
+  const parsedFilters = filtersSchema.safeParse(search);
+  const listFilters = parsedFilters.success ? parsedFilters.data : { ...filtersSchema.parse({}), date };
+  const listQuery = new URLSearchParams({
+    date: listFilters.date,
+    region: listFilters.region,
+    district: listFilters.district,
+    category: listFilters.category,
+    sort: listFilters.sort,
+  });
   const initialIds = (search.places ?? "").split(",").filter(Boolean);
   return <main id="main" className="page-width detail-page">
-    <Link className="back-link" href={`/?date=${date}`}><ArrowLeft size={15} aria-hidden />나들이 목록</Link>
+    <Link className="back-link" href={`/?${listQuery.toString()}`}><ArrowLeft size={15} aria-hidden />나들이 목록</Link>
     <div className="detail-grid"><article className="detail-content">
       <div className="detail-image"><EventPhoto event={event} priority />{event.demo ? <span className="photo-disclaimer">분위기 참고 이미지 · 실제 행사 사진이 아닙니다</span> : null}</div>
       <div className="detail-kicker"><span>{event.category}</span><span><MapPin size={13} aria-hidden />{event.region} {event.district}</span></div>

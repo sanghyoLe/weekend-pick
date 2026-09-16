@@ -9,7 +9,7 @@ test("filter, save, reload, choose nearby places, share and reopen in a new brow
   await page.getByLabel("방문 지역").selectOption("서울");
   await page.getByRole("button", { name: "나들이 찾기" }).click();
   await expect(page).toHaveURL(/region=/);
-  await page.getByLabel("방문 구·군").selectOption("성동구");
+  await page.getByLabel("방문 시·군·구").selectOption("성동구");
   await page.getByRole("button", { name: "나들이 찾기" }).click();
   await expect(page).toHaveURL(/district=%EC%84%B1%EB%8F%99%EA%B5%AC/);
   await page.getByRole("button", { name: "자연·산책", exact: true }).click();
@@ -35,6 +35,39 @@ test("filter, save, reload, choose nearby places, share and reopen in a new brow
   await expect(shared.locator(".shared-stops li").nth(1)).toContainText("근처 문화 공간");
   await other.close();
   expect(errors).toEqual([]);
+});
+
+test("regional filters wait for a district, show applied conditions and reset together", async ({ page }) => {
+  await page.goto("/");
+  const region = page.getByLabel("방문 지역");
+  const district = page.getByLabel("방문 시·군·구");
+
+  await region.selectOption("경기");
+  await expect(region).toHaveValue("경기");
+  expect(new URL(page.url()).search).toBe("");
+  await expect(district).toBeEnabled();
+  await expect(district.getByRole("option", { name: "수원시 팔달구" })).toBeAttached();
+  await district.selectOption({ label: "수원시 팔달구" });
+  await page.getByRole("button", { name: "나들이 찾기" }).click();
+
+  await expect(page).toHaveURL(/region=%EA%B2%BD%EA%B8%B0/);
+  await expect(page).toHaveURL(/district=%EC%88%98%EC%9B%90%EC%8B%9C\+%ED%8C%94%EB%8B%AC%EA%B5%AC/);
+  await expect(page.getByTestId("event-card")).toHaveCount(2);
+  for (const location of await page.locator(".event-location").allTextContents()) expect(location).toContain("경기 수원시 팔달구");
+
+  await page.getByRole("link", { name: "성곽 아래, 가을 한 장", exact: true }).click();
+  await expect(page).toHaveURL(/events\/demo-palace\?.*region=%EA%B2%BD%EA%B8%B0/);
+  await page.getByRole("link", { name: "나들이 목록" }).click();
+  await expect(page).toHaveURL(/region=%EA%B2%BD%EA%B8%B0/);
+  await expect(page.getByLabel("방문 시·군·구")).toHaveValue("수원시 팔달구");
+
+  await page.getByRole("button", { name: "먹거리", exact: true }).click();
+  await expect(page.getByRole("button", { name: "먹거리 조건 해제" })).toBeVisible();
+  await expect(page.getByTestId("event-card")).toHaveCount(1);
+  await page.getByRole("button", { name: "조건 초기화" }).click();
+  await expect(page).toHaveURL(/region=%EC%A0%84%EC%B2%B4/);
+  await expect(region).toHaveValue("전체");
+  await expect(district).toBeDisabled();
 });
 
 test("empty filters, corrupted storage, invalid requests and cron access fail clearly", async ({ page, request }) => {
