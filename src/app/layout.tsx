@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { Analytics } from "@vercel/analytics/next";
 import { Header } from "@/components/header";
 import { isDemo } from "@/lib/catalog.server";
 import "@fontsource/gowun-batang/400.css";
@@ -16,5 +17,5 @@ export const metadata: Metadata = {
 };
 export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#f8f7f2" };
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="ko"><body><Header demo={isDemo()} />{children}<footer className="footer page-width"><Link href="/" className="footer-brand">주말픽.</Link><p>가까운 곳에서, 새로운 주말.</p><Link href="/about">데이터와 이미지 안내 <ArrowUpRight size={13} aria-hidden /></Link></footer></body></html>;
+  return <html lang="ko"><body><Header demo={isDemo()} />{children}<footer className="footer page-width"><Link href="/" className="footer-brand">주말픽.</Link><p>가까운 곳에서, 새로운 주말.</p><Link href="/about">데이터와 이미지 안내 <ArrowUpRight size={13} aria-hidden /></Link></footer><Analytics /></body></html>;
 }
